@@ -3,49 +3,23 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-<properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-</properties>
-
-	<repositories>
-		<repository>
-			<id>red-hat-ga-repository</id>
-			<url>https://maven.repository.redhat.com/ga</url>
-		</repository>
-		<repository>
-			<id>red-hat-early-access-repository</id>
-			<url>https://maven.repository.redhat.com/earlyaccess/all</url>
-		</repository>
-		<repository>
-			<id>jboss-early-access-repository</id>
-			<url>https://repository.jboss.org/nexus/content/groups/ea</url>
-		</repository>
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>red-hat-ga-repository</id>
-			<url>https://maven.repository.redhat.com/ga</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>red-hat-early-access-repository</id>
-			<url>https://maven.repository.redhat.com/earlyaccess/all</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>jboss-early-access-repository</id>
-			<url>https://repository.jboss.org/nexus/content/groups/ea</url>
-		</pluginRepository>
-	</pluginRepositories>
-
-
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.fwd</groupId>
 	<artifactId>fwd-demo-soap-rest</artifactId>
 	<version>1.0</version>
 	<name>fwd-demo-rest-rest</name>
 	<description>fwd-demo-rest-rest</description>
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.0.5</version>
+			<scope>runtime</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
@@ -53,8 +27,25 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http-undertow</artifactId>
+			<version>3.2.7.fuse-730040-redhat-00001</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-cxf</artifactId>
+			<version>2.21.0.fuse-000077-redhat-1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-http</artifactId>
+			<version>2.21.0.fuse-000077-redhat-1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jdbc</artifactId>
 			<version>2.21.0.fuse-000077-redhat-1</version>
 			<scope>provided</scope>
 		</dependency>
@@ -94,6 +85,12 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>5.1.5.RELEASE</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.25</version>
@@ -111,50 +108,83 @@
 			<version>2.21.0.fuse-000077-redhat-1</version>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>io.hawt</groupId>
 			<artifactId>hawtio-springboot-1</artifactId>
 			<version>2.3.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 			<version>1.5.12.RELEASE</version>
 			<exclusions>
 				<exclusion>
-					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-logging</artifactId>
+					<groupId>org.springframework.boot</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>1.5.12.RELEASE</version>
 			<exclusions>
 				<exclusion>
-					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-logging</artifactId>
+					<groupId>org.springframework.boot</groupId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<groupId>org.springframework.boot</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-undertow</artifactId>
 			<version>1.5.12.RELEASE</version>
 		</dependency>
-		
-
+		<dependency>
+			<groupId>org.jboss.spec.javax.ws.rs</groupId>
+			<artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+			<version>1.0.0.Final-redhat-1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jetty</artifactId>
+			<version>2.21.0.fuse-000077-redhat-1</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
-
+	<repositories>
+		<repository>
+			<id>red-hat-ga-repository</id>
+			<url>https://maven.repository.redhat.com/ga</url>
+		</repository>
+		<repository>
+			<id>red-hat-early-access-repository</id>
+			<url>https://maven.repository.redhat.com/earlyaccess/all</url>
+		</repository>
+		<repository>
+			<id>jboss-early-access-repository</id>
+			<url>https://repository.jboss.org/nexus/content/groups/ea</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>red-hat-ga-repository</id>
+			<url>https://maven.repository.redhat.com/ga</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>red-hat-early-access-repository</id>
+			<url>https://maven.repository.redhat.com/earlyaccess/all</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>jboss-early-access-repository</id>
+			<url>https://repository.jboss.org/nexus/content/groups/ea</url>
+		</pluginRepository>
+	</pluginRepositories>
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -167,13 +197,11 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.12.4</version>
 				</plugin>
-
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>exec-maven-plugin</artifactId>
 					<version>1.6.0</version>
 				</plugin>
-
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -185,7 +213,6 @@
 					<applicationContextUri>META-INF/spring/camel-context.xml</applicationContextUri>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -198,7 +225,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 </project>

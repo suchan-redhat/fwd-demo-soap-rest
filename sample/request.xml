@@ -1,0 +1,34 @@
+<internalRequest>
+    <type>InputFWDQuote:#FWD.GI.Common.Schema</type>
+    <appFrom>CustomerPortal</appFrom>
+    <channel>Web</channel>
+    <company></company>
+    <lang>EN</lang>
+    <productName>TravelCare</productName>
+    <system>BrokerAPI</system>
+    <userID>HKXXXX</userID>
+    <source>HKXXXX</source>
+    <dataQuotation>
+        <type>DataQuotation:#FWD.GI.TravelCare.Schema</type>
+        <discountParty>
+            <type>DiscountParty:#ING.GI.Product.Schema</type>
+            <promoteCode></promoteCode>
+        </discountParty>
+        <childCover>false</childCover>
+        <childInput>0</childInput>
+        <commencementDateStr>09/05/2019</commencementDateStr>
+        <expiryDateStr>11/05/2019</expiryDateStr>
+        <insuredSummary>
+            <type>InsuredSummary:#FWD.GI.TravelCare.Schema</type>
+        </insuredSummary>
+        <otherInput>0</otherInput>
+        <plan>A</plan>
+        <planB>B</planB>
+        <planBPriceInfo>
+            <type>PriceInfo:#ING.GI.Product.Schema</type>
+        </planBPriceInfo>
+        <selfCover>true</selfCover>
+        <spouseCover>false</spouseCover>
+    </dataQuotation>
+</internalRequest>
+
