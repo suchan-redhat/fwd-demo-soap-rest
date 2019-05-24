@@ -218,7 +218,7 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
         .log("body after marshall: ${body}")
         .removeHeaders("CamelHttp*")
         .wireTap("direct:dbRecord")
-        .setHeader("CamelHttpMethod", constant("POST")) 
+        .setHeader("CamelHttpMethod", constant("GET")) 
              //.to("http://localhost:18080/restCall")
              .to("direct:endRoute")
         .unmarshal(formatResponse)
@@ -255,8 +255,8 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 					  System.out.println("Connecting to localhost");
 					  java.net.URL url = new java.net.URL("http://localhost:18080/restCall");
 					  java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
-					  conn.setRequestMethod("POST");
-					  conn.setRequestProperty("Accept", "application/json");
+					  conn.setRequestMethod("GET");
+					  //conn.setRequestProperty("Accept", "application/json");
 					  if (conn.getResponseCode() != 200) {
 					    System.out.println("ERROR");
 					  }
