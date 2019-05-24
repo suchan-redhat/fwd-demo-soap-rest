@@ -219,10 +219,7 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
         .removeHeaders("CamelHttp*")
         .wireTap("direct:dbRecord")
         .setHeader("CamelHttpMethod", constant("POST")) 
-        .doTry()
-             .to("http://localhost:18080/restCall")
-         .doCatch(Exception.class)
-         	 .log("exception ${body}")
+             //.to("http://localhost:18080/restCall")
              .to("direct:endRoute")
         .unmarshal(formatResponse)
         .log("body after request: ${body}")
@@ -251,6 +248,34 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
         ;
 			
 		from("direct:endRoute")
+		.process(new Processor() {
+			@Override
+			public void process(Exchange exchange) throws Exception {
+				try{
+					  System.out.println("Connecting to localhost");
+					  java.net.URL url = new java.net.URL("http://localhost:18080/restCall");
+					  java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
+					  conn.setRequestMethod("POST");
+					  conn.setRequestProperty("Accept", "application/json");
+					  if (conn.getResponseCode() != 200) {
+					    System.out.println("ERROR");
+					  }
+					  java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(conn.getInputStream()));
+					  String output;
+					  String resultStr="";
+					  System.out.println("Out put from Server ... ... ");
+					  while ((output = br.readLine()) != null) {
+					    System.out.println(output);
+						resultStr += output;
+					  }
+					  conn.disconnect();
+				}
+				catch (Exception e){
+				  System.out.println("Exception !!!! ");
+				  e.printStackTrace();
+				}
+			}	
+        })
 		.log("haha");
 	}
 
