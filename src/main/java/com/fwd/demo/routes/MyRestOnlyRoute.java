@@ -29,7 +29,14 @@ public class MyRestOnlyRoute extends RouteBuilder {
 			.bindingMode(RestBindingMode.json)
 			.type(InternalRequest.class).outType(InternalResponse.class)
 			.to("direct:restProcess")
-		;		
+		;
+		
+		rest("/restCall")
+		.get().produces("text/json").consumes("text/json")
+		.bindingMode(RestBindingMode.json)
+		.type(InternalRequest.class).outType(InternalResponse.class)
+		.to("direct:restProcess")
+	;
 		
 		from("direct:restProcess")
 		.process(new Processor() {
