@@ -5,8 +5,8 @@ public class URLTest {
 			  System.out.println("Connecting to localhost");
 			  java.net.URL url = new java.net.URL(args[1]);
 			  java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
-			  conn.setRequestMethod("POST");
-			  conn.setRequestProperty("Accept", "application/json");
+			  conn.setRequestMethod("GET");
+			  //conn.setRequestProperty("Accept", "application/json");
 			  if (conn.getResponseCode() != 200) {
 			    System.out.println("ERROR");
 			  }
