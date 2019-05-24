@@ -43,7 +43,6 @@ public class MyRestOnlyRoute extends RouteBuilder {
 	;
 		
 		from("direct:restProcess")
-		.marshal(formatResquest)
 		.process(new Processor() {
 			@Override
 			public void process(Exchange exchange) throws Exception {
@@ -179,6 +178,7 @@ public class MyRestOnlyRoute extends RouteBuilder {
 				exchange.getIn().setBody(irq2);
 			}	
         } )
+		.marshal(formatResquest)
 		;
 	}
 
