@@ -3,6 +3,7 @@ package com.fwd.demo.routes;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.cxf.message.MessageContentsList;
 
@@ -20,6 +21,8 @@ public class MyRestOnlyRoute extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
+        JacksonDataFormat formatResquest = new JacksonDataFormat(InternalRequest.class); formatResquest.setAllowJmsType(true);
+
 	    restConfiguration()
 			.component("spark-rest")
 				.port(18080)
@@ -40,6 +43,7 @@ public class MyRestOnlyRoute extends RouteBuilder {
 	;
 		
 		from("direct:restProcess")
+		.marshal(formatResquest)
 		.process(new Processor() {
 			@Override
 			public void process(Exchange exchange) throws Exception {
