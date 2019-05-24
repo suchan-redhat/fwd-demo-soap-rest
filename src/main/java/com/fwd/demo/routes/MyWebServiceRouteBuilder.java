@@ -219,7 +219,11 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
         .removeHeaders("CamelHttp*")
         .wireTap("direct:dbRecord")
         .setHeader("CamelHttpMethod", constant("POST")) 
-        .to("http://localhost:18080/restCall")
+        .doTry()
+             .to("http://localhost:18080/restCall")
+         .doCatch(Exception.class)
+         	 .log("exception ${body}")
+             .to("direct:endRoute")
         .unmarshal(formatResponse)
         .log("body after request: ${body}")
         .process(new Processor() {
@@ -246,7 +250,8 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
         .to("jdbc://mysqlDataSource")
         ;
 			
-			
+		from("direct:endRoute")
+		.log("haha");
 	}
 
 }
