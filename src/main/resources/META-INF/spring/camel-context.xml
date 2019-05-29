@@ -17,3 +17,4 @@
         <routeBuilder ref="soapOnlyRoute"/>
     </camelContext>
 </beans>
+

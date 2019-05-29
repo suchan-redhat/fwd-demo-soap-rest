@@ -199,55 +199,66 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
         
         
         from(cxfEndpoint)
-        .log("body: ${body}")
-        .process(new Processor() {
-
-			@Override
-			public void process(Exchange exchange) throws Exception {
-		        MessageContentsList msgList = (MessageContentsList)exchange.getIn().getBody();
-
-		        InternalRequest personId = (InternalRequest)msgList.get(0);
-		        String incoming = personId.getAppFrom();
-		        String outgoing = new DesEncrypter("12345678").encrypt(incoming);
-		        personId.setAppFrom(outgoing);
-				exchange.getIn().setBody(personId);
-			}	
-        })
-        .log("body: ${body}")
-        .marshal(formatResquest)
-        .log("body after marshall: ${body}")
-        .removeHeaders("CamelHttp*")
-        .wireTap("direct:dbRecord")
-        .setHeader("CamelHttpMethod", constant("POST")) 
-             .to("http://localhost:18080/restCall")
-             //.to("direct:endRoute")
-        .unmarshal(formatResponse)
-        .log("body after request: ${body}")
-        .process(new Processor() {
-			@Override
-			public void process(Exchange exchange) throws Exception {
-				InternalResponse irq2=exchange.getIn().getBody(InternalResponse.class);
-				
-		        exchange.getOut().setBody(new Object[] {irq2});
-			}	
-        })
+        	.routeId("encryption")
+        	
+        	.log("body: ${body}")
+        	
+//        	.process(new Processor() {
+//        	
+//				@Override
+//				public void process(Exchange exchange) throws Exception {
+//			        MessageContentsList msgList = (MessageContentsList)exchange.getIn().getBody();
+//	
+//			        InternalRequest personId = (InternalRequest)msgList.get(0);
+//			        String incoming = personId.getAppFrom();
+//			        String outgoing = new DesEncrypter("12345678").encrypt(incoming);
+//			        personId.setAppFrom(outgoing);
+//					exchange.getIn().setBody(personId);
+//				}	
+//	        })
+	        .log("body: ${body}")
+	        .marshal(formatResquest)
+	        .log("body after marshall: ${body}")
+	        .removeHeaders("CamelHttp*")
+	        //.wireTap("direct:dbRecord")
+	        .setHeader("CamelHttpMethod", constant("POST")) 
+	             .to("http://localhost:18080/restCall")
+	             //.to("direct:endRoute")
+	        .unmarshal(formatResponse)
+	        .log("body after request: ${body}")
+	        .process(new Processor() {
+				@Override
+				public void process(Exchange exchange) throws Exception {
+					InternalResponse irq2=exchange.getIn().getBody(InternalResponse.class);
+					
+			        exchange.getOut().setBody(new Object[] {irq2});
+				}	
+	        })
+        //.to("direct:JMS")
         .log("end"); 
         
         from("direct:dbRecord")
-        .unmarshal(formatResquest)
-        .process(new Processor() {
+        	.routeId("insert_DB")
+        	.unmarshal(formatResquest)
+        	.process(new Processor() {
 
-			@Override
-			public void process(Exchange exchange) throws Exception {
-				InternalRequest ir = exchange.getIn().getBody(InternalRequest.class);
-				exchange.getIn().setBody("insert into record (app_form) values ('"+ir.getAppFrom()+"');");
-				
-			}	
-        })
-        .to("jdbc://mysqlDataSource")
+				@Override
+				public void process(Exchange exchange) throws Exception {
+					InternalRequest ir = exchange.getIn().getBody(InternalRequest.class);
+					exchange.getIn().setBody("insert into record (app_form) values ('"+ir.getAppFrom()+"');");
+					
+				}	
+        	})
+        	.to("jdbc://mysqlDataSource")
         ;
-			
+		
+//	        from("direct:JMS")
+  //	  	.convertBodyTo(String.class)
+    //    	.to("jms:TestQ");
+      //  ;
+        
 		from("direct:endRoute")
+		.routeId("EndRoute")
 		.process(new Processor() {
 			@Override
 			public void process(Exchange exchange) throws Exception {
