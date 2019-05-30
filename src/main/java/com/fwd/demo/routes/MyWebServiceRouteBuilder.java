@@ -234,7 +234,7 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 			        exchange.getOut().setBody(new Object[] {irq2});
 				}	
 	        })
-        //.to("direct:JMS")
+        .to("direct:JMS")
         .log("end"); 
         
         from("direct:dbRecord")
@@ -252,10 +252,13 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
         	.to("jdbc://mysqlDataSource")
         ;
 		
-//	        from("direct:JMS")
-  //	  	.convertBodyTo(String.class)
-    //    	.to("jms:TestQ");
-      //  ;
+	from("direct:JMS")
+                .routeId("JMS")
+                .convertBodyTo(String.class)
+                .log("sending to the jms")
+                .to(ExchangePattern.InOnly, "jms:TestQ")
+        ;
+
         
 		from("direct:endRoute")
 		.routeId("EndRoute")
