@@ -200,7 +200,7 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
         
         from(cxfEndpoint)
         	.routeId("encryption")
-        	
+        	.transacted()
         	.log("body: ${body}")
         	
 //        	.process(new Processor() {
