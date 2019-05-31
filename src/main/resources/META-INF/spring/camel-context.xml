@@ -16,7 +16,7 @@
         <property name="environment">
             <props>
                 <prop key="java.naming.factory.initial">org.jboss.naming.remote.client.InitialContextFactory</prop>
-                <prop key="java.naming.provider.url">http-remoting://wildfly:8080</prop>
+                <prop key="java.naming.provider.url">http-remoting://wildfly.fwd-demo-soap-rest.svc.cluster.local:8080</prop>
             </props>
         </property>
     </bean>
