@@ -16,13 +16,17 @@
         <property name="environment">
             <props>
                 <prop key="java.naming.factory.initial">org.jboss.naming.remote.client.InitialContextFactory</prop>
-                <prop key="java.naming.provider.url">http-remoting://127.0.0.1:9080</prop>
+                <prop key="java.naming.provider.url">http-remoting://localhost:9080</prop>
+                <prop key="java.naming.security.principal">jmsuser</prop>
+		<prop key="java.naming.security.credentials">jmsuser@1</prop>
+		<prop key="username">jmsuser@1</prop>
+		<prop key="password">jmsuser@1</prop>
             </props>
         </property>
     </bean>
      
     <!-- Getting ConnectionFactory using Spring Jndi Template -->
-    <bean  id="jmsQueueConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <bean primary="true" id="jmsQueueConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiTemplate">
             <ref bean="jndiTemplate" />
         </property>
