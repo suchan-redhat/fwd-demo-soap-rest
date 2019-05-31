@@ -16,7 +16,7 @@
         <property name="environment">
             <props>
                 <prop key="java.naming.factory.initial">org.jboss.naming.remote.client.InitialContextFactory</prop>
-                <prop key="java.naming.provider.url">http-remoting://localhost:9080</prop>
+		<prop key="java.naming.provider.url">http-remoting://localhost:9080</prop>
                 <prop key="java.naming.security.principal">jmsuser</prop>
 		<prop key="java.naming.security.credentials">jmsuser@1</prop>
 		<prop key="username">jmsuser@1</prop>
@@ -46,6 +46,13 @@
  
     <bean name="jms" class="org.apache.camel.component.jms.JmsComponent">
         <property name="connectionFactory" ref="authenticatedConnectionFactory" />
+    </bean>
+    <bean id="jmsTransactionManager" class="org.springframework.jms.connection.JmsTransactionManager">
+    	<property name="connectionFactory" ref="authenticatedConnectionFactory" />
+    </bean>
+    <bean id="PROPAGATION_REQUIRES_NEW" class="org.apache.camel.spring.spi.SpringTransactionPolicy">
+        <property name="transactionManager" ref="jmsTransactionManager" />
+        <property name="propagationBehaviorName" value="PROPAGATION_REQUIRES_NEW" />
     </bean>
     <camelContext id="ws-context" xmlns="http://camel.apache.org/schema/spring">
         <routeBuilder ref="wsRouteBuilder"/>

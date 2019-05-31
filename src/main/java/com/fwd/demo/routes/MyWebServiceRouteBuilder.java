@@ -200,7 +200,8 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
         
         from(cxfEndpoint)
         	.routeId("encryption")
-        	//.transacted("PROPAGATION_REQUIRES_NEW")
+        	.transacted("PROPAGATION_REQUIRES_NEW")
+//		.transacted()
         	.log("body: ${body}")
         	
 //        	.process(new Processor() {
@@ -220,7 +221,7 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 	        .marshal(formatResquest)
 	        .log("body after marshall: ${body}")
 	        .removeHeaders("CamelHttp*")
-	        .wireTap("direct:dbRecord")
+	        //.wireTap("direct:dbRecord")
 	        .setHeader("CamelHttpMethod", constant("POST")) 
 	             .to("http://localhost:18080/restCall")
 	             //.to("direct:endRoute")
@@ -234,7 +235,8 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 			        exchange.getOut().setBody(new Object[] {irq2});
 				}	
 	        })
-        .wireTap("direct:JMS")
+	 .wireTap("direct:JMS")
+	.to("direct:endRoute")
         .log("end"); 
         
         from("direct:dbRecord")
