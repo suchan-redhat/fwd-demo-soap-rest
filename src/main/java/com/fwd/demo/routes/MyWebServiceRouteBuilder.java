@@ -7,7 +7,7 @@ import org.apache.camel.component.cxf.CxfEndpoint;
 import org.apache.camel.component.cxf.DataFormat;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.cxf.message.MessageContentsList;
-
+import org.apache.camel.ExchangePattern;
 import com.fwd.demo.beans.InternalRequest;
 import com.fwd.demo.beans.InternalResponse;
 import com.fwd.demo.util.DesEncrypter;
