@@ -204,19 +204,19 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 //		.transacted()
         	.log("body: ${body}")
         	
-//        	.process(new Processor() {
-//        	
-//				@Override
-//				public void process(Exchange exchange) throws Exception {
-//			        MessageContentsList msgList = (MessageContentsList)exchange.getIn().getBody();
-//	
-//			        InternalRequest personId = (InternalRequest)msgList.get(0);
-//			        String incoming = personId.getAppFrom();
-//			        String outgoing = new DesEncrypter("12345678").encrypt(incoming);
-//			        personId.setAppFrom(outgoing);
-//					exchange.getIn().setBody(personId);
-//				}	
-//	        })
+        	.process(new Processor() {
+        	
+				@Override
+				public void process(Exchange exchange) throws Exception {
+			        MessageContentsList msgList = (MessageContentsList)exchange.getIn().getBody();
+	
+			        InternalRequest personId = (InternalRequest)msgList.get(0);
+			        String incoming = personId.getAppFrom();
+			        String outgoing = new DesEncrypter("12345678").encrypt(incoming);
+			        personId.setAppFrom(outgoing);
+					exchange.getIn().setBody(personId);
+				}	
+	        })
 	        .log("body: ${body}")
 	        .marshal(formatResquest)
 	        .log("body after marshall: ${body}")
