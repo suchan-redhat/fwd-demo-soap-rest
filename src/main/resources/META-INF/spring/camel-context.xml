@@ -26,7 +26,7 @@
     </bean>
      
     <!-- Getting ConnectionFactory using Spring Jndi Template -->
-    <bean id="jmsQueueConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <bean primary="true" id="jmsQueueConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiTemplate">
             <ref bean="jndiTemplate" />
         </property>
