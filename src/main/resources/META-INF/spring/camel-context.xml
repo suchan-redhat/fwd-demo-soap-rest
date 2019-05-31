@@ -17,8 +17,8 @@
             <props>
                 <prop key="java.naming.factory.initial">org.jboss.naming.remote.client.InitialContextFactory</prop>
                 <prop key="java.naming.provider.url">http-remoting://wildfly.fwd-demo-soap-rest.svc.cluster.local:8080</prop>
-                <prop key="java.naming.security.principal" value="jmsuser"></prop>
-		<prop key="java.naming.security.credentials" value="jmsuser@1"></prop>
+                <prop key="java.naming.security.principal">jmsuser</prop>
+		<prop key="java.naming.security.credentials">jmsuser@1</prop>
             </props>
         </property>
     </bean>
