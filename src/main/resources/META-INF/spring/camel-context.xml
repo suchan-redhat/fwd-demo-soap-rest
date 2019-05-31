@@ -26,7 +26,7 @@
     </bean>
      
     <!-- Getting ConnectionFactory using Spring Jndi Template -->
-    <bean primary="true" id="jmsQueueConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <bean  id="jmsQueueConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiTemplate">
             <ref bean="jndiTemplate" />
         </property>
@@ -37,7 +37,7 @@
  
     <!-- Spring based Security Part, Those are the users created in ApplicationRealm of WildFLy -->
 
-    <bean id="authenticatedConnectionFactory" class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+    <bean primary="true" id="authenticatedConnectionFactory" class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
         <property name="targetConnectionFactory" ref="jmsQueueConnectionFactory" />
         <property name="username" value="jmsuser" />
         <property name="password" value="jmsuser@1" />
