@@ -221,7 +221,7 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 	        .marshal(formatResquest)
 	        .log("body after marshall: ${body}")
 	        .removeHeaders("CamelHttp*")
-	        //.wireTap("direct:dbRecord")
+	        .wireTap("direct:dbRecord")
 	        .setHeader("CamelHttpMethod", constant("POST")) 
 	             .to("http://localhost:18080/restCall")
 	             //.to("direct:endRoute")
